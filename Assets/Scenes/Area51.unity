@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &62078476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 62078477}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &62078477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62078476}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.817}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492355732}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &268689420
 GameObject:
   m_ObjectHideFlags: 3
@@ -530,6 +561,7 @@ GameObject:
   - component: {fileID: 1492355729}
   - component: {fileID: 1492355735}
   - component: {fileID: 1492355734}
+  - component: {fileID: 1492355736}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -624,6 +656,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1425351017}
+  - {fileID: 62078477}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1492355734
@@ -640,7 +673,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInput: {fileID: 2108978825}
   moveSpeed: 7
-  rotateSpeed: 10
 --- !u!54 &1492355735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -649,7 +681,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492355728}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -668,6 +700,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1492355736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492355728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0bc7522ee799499a2adc286b36d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameInput: {fileID: 2108978825}
+  bulletPrefab: {fileID: 912935743910953873, guid: 688dcbfaf7114ec479db967f468dd8ce, type: 3}
+  firePoint: {fileID: 62078477}
+  rotateSpeed: 10
+  fireForce: 16
+  fireRate: 1
 --- !u!1 &1649329649
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,6 +947,6 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 2095406500}
   - {fileID: 705507995}
+  - {fileID: 2108978826}
   - {fileID: 1649329653}
   - {fileID: 1492355732}
-  - {fileID: 2108978826}
