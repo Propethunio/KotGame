@@ -8,7 +8,7 @@ public class PlayerHealthSystem : MonoBehaviour {
     public int eggNumber;
     [SerializeField] GameObject showScore;
     [SerializeField] TextMeshProUGUI eggNumberText;
-    [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] PlayerControlls playerMovement;
 
 
     void Update() {
