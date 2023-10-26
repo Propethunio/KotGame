@@ -65,11 +65,11 @@ public class PlayerHealthSystem : MonoBehaviour {
         if (eggNumber >= 1) {
             if (isEnemyStayCollision) {
                 if (!isDecreasingEggs) {
-                    StartCoroutine(DecreaseEggs(5.0f));
+                    StartCoroutine(DecreaseEggs(4.0f));
                 }
             }
             else {
-                StopCoroutine(DecreaseEggs(5.0f)); 
+                StopCoroutine(DecreaseEggs(1.0f)); 
             }
         }
     }

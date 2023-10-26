@@ -50,8 +50,7 @@ public class PlayerMovement : MonoBehaviour {
         GameObject body = Instantiate(bodyPrefab, newPosition, Quaternion.identity);
         body.transform.SetParent(gameObject.transform);
         bodyParts.Add(body);
-        EggDamage eggDamageScript = body.GetComponent<EggDamage>();
-        eggDamageScript.playerHealthSystem = gameObject.GetComponent<PlayerHealthSystem>();
+       
     }
 
     public void DecreaseTail() {
