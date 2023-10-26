@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
@@ -12,7 +13,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] int gap = 10;
     float newZPosition = -1.0f;
 
-    bool isWalking;
+    public bool isWalking;
 
     void Update() {
         HandleMovement();
@@ -27,7 +28,6 @@ public class PlayerMovement : MonoBehaviour {
 
 
         //Chicks position and movement
-
         if (isWalking && bodyParts.Count > 0) {
             bodyParts[0].transform.position = transform.position;
         }
@@ -50,6 +50,18 @@ public class PlayerMovement : MonoBehaviour {
         GameObject body = Instantiate(bodyPrefab, newPosition, Quaternion.identity);
         body.transform.SetParent(gameObject.transform);
         bodyParts.Add(body);
+        EggDamage eggDamageScript = body.GetComponent<EggDamage>();
+        eggDamageScript.playerHealthSystem = gameObject.GetComponent<PlayerHealthSystem>();
+    }
+
+    public void DecreaseTail() {
+        int numChildren = gameObject.transform.childCount;            
+
+        if (numChildren > 0)
+        {
+            bodyParts.RemoveAt(bodyParts.Count - 1);
+            Destroy(gameObject.transform.GetChild(numChildren - 1).gameObject);       
+        }
     }
 
 }
