@@ -8,7 +8,7 @@ public class PlayerHealthSystem : MonoBehaviour {
     int eggNumber;
     [SerializeField] GameObject showScore;
     [SerializeField] TextMeshProUGUI eggNumberText;
-    [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] PlayerControlls playerMovement;
     public bool isEnemyEnterCollision;
     public bool isEnemyStayCollision;
     bool isDecreasingEggs = false;

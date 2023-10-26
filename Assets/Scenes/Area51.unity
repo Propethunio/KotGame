@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -346,9 +346,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 25, z: -10}
-  m_XDamping: 0.6
-  m_YDamping: 0.6
-  m_ZDamping: 0.6
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -1606,7 +1606,6 @@ GameObject:
   - component: {fileID: 1492355729}
   - component: {fileID: 1492355735}
   - component: {fileID: 1492355734}
-  - component: {fileID: 1492355736}
   - component: {fileID: 1492355737}
   m_Layer: 0
   m_Name: Player
@@ -1718,10 +1717,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInput: {fileID: 2108978825}
+  bulletPrefab: {fileID: 912935743910953873, guid: 688dcbfaf7114ec479db967f468dd8ce, type: 3}
+  firePoint: {fileID: 62078477}
   moveSpeed: 7
+  rotateSpeed: 10
+  fireForce: 16
+  fireRate: 0.6
   bodyPrefab: {fileID: 8190821787292177782, guid: 5bfff3abd575b434cac898c8417575e1, type: 3}
   gap: 30
-  isWalking: 0
 --- !u!54 &1492355735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1749,24 +1752,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1492355736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1492355728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21a0bc7522ee799499a2adc286b36d8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameInput: {fileID: 2108978825}
-  bulletPrefab: {fileID: 912935743910953873, guid: 688dcbfaf7114ec479db967f468dd8ce, type: 3}
-  firePoint: {fileID: 62078477}
-  rotateSpeed: 8
-  fireForce: 14
-  fireRate: 0.5
 --- !u!114 &1492355737
 MonoBehaviour:
   m_ObjectHideFlags: 0
