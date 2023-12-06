@@ -2,28 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControlls : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 
     [SerializeField] GameInput gameInput;
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform firePoint;
     [SerializeField] float moveSpeed = 7f;
     [SerializeField] float rotateSpeed = 10f;
-    [SerializeField] float fireForce = 16f;
-    [SerializeField] float fireRate = .6f;
     [SerializeField] GameObject bodyPrefab;
     List<GameObject> bodyParts = new List<GameObject>();
     List<Vector3> PositionHistory = new List<Vector3>();
     [SerializeField] int gap = 10;
     float newZPosition = -1.0f;
 
+    PlayerCombat combat;
     Rigidbody rb;
-    float lastShoot;
     Vector3 moveDir;
 
-    void Awake() {
+    void Start() {
         rb = GetComponent<Rigidbody>();
-        lastShoot = Time.time - fireRate;
+        combat = GetComponent<PlayerCombat>();
     }
 
     void Update() {
@@ -44,7 +40,7 @@ public class PlayerControlls : MonoBehaviour {
         if(shootingInputVector != Vector2.zero) {
             Vector3 shootingDir = new Vector3(shootingInputVector.x, 0f, shootingInputVector.y);
             RotatePlayer(shootingDir);
-            Shoot();
+            combat.TryShoot();
         }
 
         //Chicks position and movement
@@ -68,14 +64,6 @@ public class PlayerControlls : MonoBehaviour {
 
     void RotatePlayer(Vector3 dir) {
         transform.forward = Vector3.Slerp(transform.forward, dir, rotateSpeed * Time.deltaTime);
-    }
-
-    void Shoot() {
-        if(Time.time >= fireRate + lastShoot) {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            bullet.GetComponent<Rigidbody>().AddForce(firePoint.forward * fireForce, ForceMode.Impulse);
-            lastShoot = Time.time;
-        }
     }
 
     public void GrowTail() {
