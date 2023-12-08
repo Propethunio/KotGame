@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class InGameUIHandler : MonoBehaviour
 {
     //================SEED================
-    int seedNumber = 0; // seeds value
     [SerializeField] TextMeshProUGUI seedText;
+    [SerializeField] PlayerLootSystem playerLootSystem;
 
     //================PAUSE================
     [SerializeField] GameObject pauseMenu;
@@ -24,6 +24,13 @@ public class InGameUIHandler : MonoBehaviour
     private float startValue;
     private float elapsedTime = 0.0f;
 
+    //================GUNS================
+    [SerializeField] PlayerCombat playerCombat;
+    [SerializeField] GameObject shotgun;
+    [SerializeField] GameObject machinegun;
+    [SerializeField] TextMeshProUGUI[] bulletsText = new TextMeshProUGUI[2];
+
+
     private void Start() {
         slider.value = 100f;
         targetValue = 0f;
@@ -31,6 +38,10 @@ public class InGameUIHandler : MonoBehaviour
 
         if(!isPauseMenuOn)
             StartCoroutine(DecreaseSliderValue());
+    }
+
+    void Update() {
+        DisplayGuns();
     }
 
     public void PauseMenu() {
@@ -50,8 +61,7 @@ public class InGameUIHandler : MonoBehaviour
     }
 
     public void SeedDisplay() {
-        seedNumber+=100;
-        seedText.SetText($"{seedNumber.ToString()}");
+        seedText.SetText($"{playerLootSystem.seedNumber.ToString()}");
     }
 
     private System.Collections.IEnumerator DecreaseSliderValue() {
@@ -64,13 +74,28 @@ public class InGameUIHandler : MonoBehaviour
         }   
             slider.value = targetValue;
     } 
-}
 
-/*
-void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Seed") {
-            Destroy(collision.gameObject);
-            inGameUIHandler.SeedDisplay();
+    void DisplayGuns() {
+
+        if(playerCombat.gunInUse[1] == true)
+        {
+            shotgun.SetActive(true);
+            bulletsText[0].SetText($"{playerCombat.bullets.ToString()}");
         }
+        else
+        {
+            shotgun.SetActive(false);
+        }
+
+        if(playerCombat.gunInUse[2] == true)
+        {
+            machinegun.SetActive(true);
+            bulletsText[1].SetText($"{playerCombat.bullets.ToString()}");
+        }
+        else
+        {
+            machinegun.SetActive(false);
+        }
+
     }
-*/
+}

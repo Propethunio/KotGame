@@ -20,18 +20,30 @@ public class PlayerCombat : MonoBehaviour {
 
     [HideInInspector] public int bullets;
     [HideInInspector] public Weapon weapon;
-
+    [HideInInspector] public bool[] gunInUse = new bool[3];
     float lastShoot;
+
+    //===================GUNS=======================
+    // [0] handgun
+    // [1] shootgun
+    // [2] machinegun
+
+    void Start() {
+        gunInUse[0] = true;
+    }
 
     public void TryShoot() {
         switch(weapon) {
             case Weapon.none:
+                gunInUse[0] = true;
                 ShootPistol();
                 break;
             case Weapon.machineGun:
+                gunInUse[2] = true;
                 ShootMachinegun();
                 break;
             case Weapon.shootgun:
+                gunInUse[1] = true;
                 ShootShootgun();
                 break;
         }
@@ -47,6 +59,9 @@ public class PlayerCombat : MonoBehaviour {
     }
 
     void ShootMachinegun() {
+        gunInUse[0] = false;
+        gunInUse[1] = true;
+        gunInUse[2] = false;
         if(Time.time >= 1f / machineGunFireRate + lastShoot) {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             Vector3 spread = new Vector3(Random.Range(-.1f, .1f), 0f, Random.Range(-.1f, .1f));
@@ -55,11 +70,16 @@ public class PlayerCombat : MonoBehaviour {
             bullets--;
             if(bullets <= 0) {
                 weapon = Weapon.none;
+                gunInUse[0] = true;
+                gunInUse[1] = false;
             }
         }
     }
 
     void ShootShootgun() {
+        gunInUse[0] = false;
+        gunInUse[1] = false;
+        gunInUse[2] = true;
         if(Time.time >= 1f / shootgunFireRate + lastShoot) {
             for(int i = 0; i < shootgunPallets; i++) {
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
@@ -70,6 +90,8 @@ public class PlayerCombat : MonoBehaviour {
             bullets--;
             if(bullets <= 0) {
                 weapon = Weapon.none;
+                gunInUse[0] = true;
+                gunInUse[2] = false;
             }
         }
     }

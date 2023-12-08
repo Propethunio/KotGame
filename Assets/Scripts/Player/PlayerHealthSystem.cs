@@ -6,85 +6,85 @@ using TMPro;
 public class PlayerHealthSystem : MonoBehaviour {
     
     int eggNumber;
+    bool canTakeDamage = true; 
     [SerializeField] GameObject showScore;
     [SerializeField] TextMeshProUGUI eggNumberText;
     [SerializeField] PlayerController playerMovement;
-    public bool isEnemyEnterCollision;
-    public bool isEnemyStayCollision;
-    bool isDecreasingEggs = false;
-
+    int damageToTake = 3;
+    int takenDamage = 0;
 
     void Update() {
         ShowEggScore();
-        CheckForDamage();
+        Death();
     }
 
     void OnCollisionEnter(Collision collision) {
         //Egg collecting and growing tail
         if (collision.gameObject.tag == "Egg") {
             eggNumber++;
+            damageToTake+=3;
             Destroy(collision.gameObject);
             playerMovement.GrowTail();
         }
 
-        //Checking for enemy enter collision
+        //Checking for enemy collision
         if (collision.gameObject.tag == "Enemy") {
-            isEnemyEnterCollision = true;
-        }
-        else {
-            isEnemyEnterCollision = false;
-        }
-    }
-
-    void OnCollisionStay(Collision collision) {
-        //Checking for enemy enter collision
-        if (collision.gameObject.tag == "Enemy") {
-            isEnemyStayCollision = true;
-        }
-        else {
-            isEnemyStayCollision = false;
+            TakeDamage();
         }
     }
 
     void ShowEggScore() {
-        if(eggNumber >= 1)
-        {
+        if (eggNumber >= 1) {
             showScore.SetActive(true);
             eggNumberText.SetText($"x{eggNumber.ToString()}");
         }
-        else{
+        else {
             showScore.SetActive(false);
         }
     }
 
-    void CheckForDamage() {
-        if (eggNumber == 0 && isEnemyEnterCollision) {
-            Debug.Log("DEAD!");
+    void TakeDamage() {
+        if(eggNumber == 0)
+        {
+            StartCoroutine(WithoutEgg(1.0f));
         }
 
-        if (eggNumber >= 1) {
-            if (isEnemyStayCollision) {
-                if (!isDecreasingEggs) {
-                    StartCoroutine(DecreaseEggs(4.0f));
-                }
-            }
-            else {
-                StopCoroutine(DecreaseEggs(1.0f)); 
-            }
+        if (eggNumber >= 1 && canTakeDamage) {
+            StartCoroutine(DecreaseEgg(1.0f));
         }
     }
 
-    IEnumerator DecreaseEggs(float decreaseInterval) {
-        isDecreasingEggs = true;
-        while (eggNumber > 0){
+    IEnumerator DecreaseEgg(float cooldownTime) {
+        takenDamage++;
+
+        if(takenDamage == 3){
             eggNumber--;
             playerMovement.DecreaseTail();
-            yield return new WaitForSeconds(decreaseInterval);
+            takenDamage = 0;
+            damageToTake-=3;
         }
-        isDecreasingEggs = false;
-        
-        if (eggNumber == 0 && isEnemyEnterCollision) {
-            Debug.Log("VERY DEAD!");
+
+        canTakeDamage = false; 
+        yield return new WaitForSeconds(cooldownTime);
+        canTakeDamage = true; 
+    }
+
+    IEnumerator WithoutEgg(float cooldownTime) {
+        takenDamage++;
+
+        if(takenDamage == 3){
+            takenDamage = 0;
+            damageToTake-=3;
+        }
+
+        canTakeDamage = false; 
+        yield return new WaitForSeconds(cooldownTime);
+        canTakeDamage = true; 
+    }
+
+    void Death() {
+        if(damageToTake == 0) {
+            Debug.Log("Dead!");
         }
     }
 }

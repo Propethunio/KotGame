@@ -12,10 +12,11 @@ public class PlayerController : MonoBehaviour {
     List<Vector3> PositionHistory = new List<Vector3>();
     [SerializeField] int gap = 10;
     float newZPosition = -1.0f;
-
+    [SerializeField] GameObject bodyParent;
     PlayerCombat combat;
     Rigidbody rb;
-    Vector3 moveDir;
+    Vector3 moveDir;   
+    bool isWalking;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
         HandleInputs();
+        isWalking = moveDir != Vector3.zero;
     }
 
     void FixedUpdate() {
@@ -45,14 +47,20 @@ public class PlayerController : MonoBehaviour {
 
         //Chicks position and movement
 
-        if(bodyParts.Count > 0) {
-            bodyParts[0].transform.position = transform.position;
+       const int maxHistoryCount = 1000;
+
+        if (isWalking) {
+            PositionHistory.Insert(0, transform.position);
+
+            if (PositionHistory.Count > maxHistoryCount) {
+                PositionHistory.RemoveRange(maxHistoryCount, PositionHistory.Count - maxHistoryCount);
+            }
         }
 
-        PositionHistory.Insert(0, transform.position);
         int index = 1;
-        foreach(var body in bodyParts) {
-            Vector3 point = PositionHistory[Mathf.Min(index * gap, PositionHistory.Count - 1)];
+        foreach (var body in bodyParts) {
+            int pointIndex = Mathf.Min(index * gap, PositionHistory.Count - 1);
+            Vector3 point = PositionHistory[pointIndex];
             body.transform.position = point;
             index++;
         }
@@ -69,16 +77,16 @@ public class PlayerController : MonoBehaviour {
     public void GrowTail() {
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, newZPosition);
         GameObject body = Instantiate(bodyPrefab, newPosition, Quaternion.identity);
-        body.transform.SetParent(gameObject.transform);
+        body.transform.SetParent(bodyParent.transform);
         bodyParts.Add(body);
     }
 
     public void DecreaseTail() {
-        int numChildren = gameObject.transform.childCount;
+        int numChildren = bodyParent.transform.childCount;
 
         if(numChildren > 0) {
-            bodyParts.RemoveAt(bodyParts.Count - 1);
-            Destroy(gameObject.transform.GetChild(numChildren - 1).gameObject);
+            bodyParts.RemoveAt(0);
+            Destroy(bodyParent.transform.GetChild(0).gameObject);
         }
     }
 }
