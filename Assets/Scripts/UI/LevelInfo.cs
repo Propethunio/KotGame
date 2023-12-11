@@ -23,11 +23,10 @@ public class LevelInfo : MonoBehaviour
         parentTransform = transform.parent;
         parentObject = parentTransform.gameObject;
         uiHandler = parentObject.GetComponent<UIHandler>();
-
-        CheckWhichChildObjectIs();
     }
 
     void Start() {
+        CheckWhichChildObjectIs();
         CreateLevel();
     }
 

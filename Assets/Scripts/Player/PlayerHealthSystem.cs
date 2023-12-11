@@ -4,14 +4,14 @@ using UnityEngine;
 using TMPro;
 
 public class PlayerHealthSystem : MonoBehaviour {
-    
     int eggNumber;
     bool canTakeDamage = true; 
     [SerializeField] GameObject showScore;
     [SerializeField] TextMeshProUGUI eggNumberText;
     [SerializeField] PlayerController playerMovement;
-    int damageToTake = 3;
-    int takenDamage = 0;
+    [SerializeField] int damageToTake = 3;
+    [SerializeField] int takenDamage = 0;
+    public Vector3 takenEggPosition;
 
     void Update() {
         ShowEggScore();
@@ -23,15 +23,20 @@ public class PlayerHealthSystem : MonoBehaviour {
         if (collision.gameObject.tag == "Egg") {
             eggNumber++;
             damageToTake+=3;
-            Destroy(collision.gameObject);
-            playerMovement.GrowTail();
-        }
 
-        //Checking for enemy collision
-        if (collision.gameObject.tag == "Enemy") {
-            TakeDamage();
+            if(collision.gameObject != null) 
+                takenEggPosition = collision.gameObject.transform.position;
+
+            playerMovement.GrowTail();
+            Destroy(collision.gameObject);
         }
     }
+
+    void OnTriggerEnter(Collider collision) {
+        if (collision.gameObject.tag == "MeleeAttack") {
+            TakeDamage();
+        }
+    } 
 
     void ShowEggScore() {
         if (eggNumber >= 1) {
@@ -46,11 +51,11 @@ public class PlayerHealthSystem : MonoBehaviour {
     void TakeDamage() {
         if(eggNumber == 0)
         {
-            StartCoroutine(WithoutEgg(1.0f));
+            StartCoroutine(WithoutEgg(0.5f));
         }
 
         if (eggNumber >= 1 && canTakeDamage) {
-            StartCoroutine(DecreaseEgg(1.0f));
+            StartCoroutine(DecreaseEgg(0.5f));
         }
     }
 

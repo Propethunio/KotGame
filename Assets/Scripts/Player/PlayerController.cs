@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-
     [SerializeField] GameInput gameInput;
     [SerializeField] float moveSpeed = 7f;
     [SerializeField] float rotateSpeed = 10f;
+    [SerializeField] GameObject positionHolderPrefab;
+    [SerializeField] PlayerHealthSystem playerHealthSystem;
     [SerializeField] GameObject bodyPrefab;
-    List<GameObject> bodyParts = new List<GameObject>();
+    public List<GameObject> bodyParts = new List<GameObject>();
     List<Vector3> PositionHistory = new List<Vector3>();
     [SerializeField] int gap = 10;
     float newZPosition = -1.0f;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour {
     Rigidbody rb;
     Vector3 moveDir;   
     bool isWalking;
+    public bool newBodyPart;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour {
 
         //Chicks position and movement
 
-       const int maxHistoryCount = 1000;
+       const int maxHistoryCount = 2000;
 
         if (isWalking) {
             PositionHistory.Insert(0, transform.position);
@@ -67,18 +69,21 @@ public class PlayerController : MonoBehaviour {
     }
 
     void HandleMovement() {
-        rb.MovePosition(transform.position + (moveDir * moveSpeed * Time.fixedDeltaTime));
+        rb.MovePosition(transform.position + (moveDir * moveSpeed * Time.smoothDeltaTime));
     }
 
     void RotatePlayer(Vector3 dir) {
-        transform.forward = Vector3.Slerp(transform.forward, dir, rotateSpeed * Time.deltaTime);
+        transform.forward = Vector3.Slerp(transform.forward, dir, rotateSpeed * Time.smoothDeltaTime);
     }
 
     public void GrowTail() {
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, newZPosition);
-        GameObject body = Instantiate(bodyPrefab, newPosition, Quaternion.identity);
-        body.transform.SetParent(bodyParent.transform);
-        bodyParts.Add(body);
+        GameObject positionHolder = Instantiate(positionHolderPrefab, newPosition, Quaternion.identity);
+        positionHolder.transform.SetParent(bodyParent.transform);
+        bodyParts.Add(positionHolder);
+        newBodyPart = true;
+
+        GameObject body = Instantiate(bodyPrefab, playerHealthSystem.takenEggPosition, Quaternion.identity);
     }
 
     public void DecreaseTail() {

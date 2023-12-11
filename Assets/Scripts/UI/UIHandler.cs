@@ -24,18 +24,16 @@ public class UIHandler : MonoBehaviour
 
     void Awake() {
         CopyListOfLevel();
+        CreatedLevels();
     }
 
-    private void Start() {
-        CreateLevels();
-    }
 
     void Update() {
         CheckForClickedButton();
     }
 
 
-    void CreateLevels() {
+    void CreatedLevels() {
         for(int i = 0; i<levels.Count; i++)
         {
             Level levelToCreate = new Level();

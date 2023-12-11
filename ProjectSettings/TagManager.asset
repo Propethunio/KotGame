@@ -8,15 +8,17 @@ TagManager:
   - Bullet
   - Enemy
   - Seed
+  - MeleeAttack
+  - Holder
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Eggs
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - MeleeAttack
   - 
   - 
   - 

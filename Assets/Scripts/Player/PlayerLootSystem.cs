@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLootSystem : MonoBehaviour
-{
-    [SerializeField] PlayerController playerMovement;
+public class PlayerLootSystem : MonoBehaviour {
     [SerializeField] InGameUIHandler inGameUIHandler;
     public int seedNumber = 0; // seeds value
-    
-    void OnCollisionEnter(Collision collision) {
+
+    void OnTriggerEnter(Collider collision) {
         //Collecting seeds
         if (collision.gameObject.tag == "Seed") {
             Destroy(collision.gameObject);
