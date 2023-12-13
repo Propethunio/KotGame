@@ -10,18 +10,27 @@ public class ChicksBehaviour : MonoBehaviour {
     GameObject player;
     PlayerController playerController;
     Transform target;
+    PlayerHealthSystem playerHealthSystem;
+
+    //==============DAMAGE FLASH==============
+    MeshRenderer meshRenderer;
+    Color orgColor;
+    float flashTime = 0.30f;
+    
     void Awake() {
         chick = gameObject.GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        orgColor = meshRenderer.material.color;
+        playerHealthSystem = player.GetComponent<PlayerHealthSystem>();
     }
 
     void Update() {
        if (chick.enabled && playerController.newBodyPart && playerController.bodyParts.Count > 0 && chick.isOnNavMesh) {
         target = playerController.bodyParts[playerController.bodyParts.Count - 1].transform;
         FindTheWayToLine();
-    }
-
+        }
     }
 
     void FindTheWayToLine() {
@@ -43,5 +52,22 @@ public class ChicksBehaviour : MonoBehaviour {
         else {
             return (agent.remainingDistance <= agent.stoppingDistance);
         }
+    }
+
+    void OnTriggerEnter(Collider collision) {
+        if (collision.gameObject.tag == "Enemy") {
+            DamageFlash();
+            playerHealthSystem.TakeDamage();
+            
+        }
+    }  
+
+    void DamageFlash() {
+        meshRenderer.material.color = Color.red;
+        Invoke("FlashStop", flashTime);
+    }
+
+    void FlashStop () {
+        meshRenderer.material.color = orgColor;
     }
 }

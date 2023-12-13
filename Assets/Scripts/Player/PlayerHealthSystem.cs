@@ -13,6 +13,15 @@ public class PlayerHealthSystem : MonoBehaviour {
     [SerializeField] int takenDamage = 0;
     public Vector3 takenEggPosition;
 
+    //==============DAMAGE FLASH==============
+    [SerializeField] MeshRenderer meshRenderer;
+    Color orgColor;
+    float flashTime = 0.30f;
+
+    void Start() {
+        orgColor = meshRenderer.material.color;
+    }
+
     void Update() {
         ShowEggScore();
         Death();
@@ -36,7 +45,7 @@ public class PlayerHealthSystem : MonoBehaviour {
         if (collision.gameObject.tag == "MeleeAttack") {
             TakeDamage();
         }
-    } 
+    }  
 
     void ShowEggScore() {
         if (eggNumber >= 1) {
@@ -48,13 +57,14 @@ public class PlayerHealthSystem : MonoBehaviour {
         }
     }
 
-    void TakeDamage() {
-        if(eggNumber == 0)
-        {
+    public void TakeDamage() {
+        if(eggNumber == 0) {
+            DamageFlash();
             StartCoroutine(WithoutEgg(0.5f));
         }
 
         if (eggNumber >= 1 && canTakeDamage) {
+            DamageFlash();
             StartCoroutine(DecreaseEgg(0.5f));
         }
     }
@@ -91,5 +101,14 @@ public class PlayerHealthSystem : MonoBehaviour {
         if(damageToTake == 0) {
             Debug.Log("Dead!");
         }
+    }
+
+    void DamageFlash() {
+        meshRenderer.material.color = Color.red;
+        Invoke("FlashStop", flashTime);
+    }
+
+    void FlashStop () {
+        meshRenderer.material.color = orgColor;
     }
 }
