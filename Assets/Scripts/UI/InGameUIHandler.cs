@@ -17,8 +17,7 @@ public class InGameUIHandler : MonoBehaviour
     bool isPauseMenuOn;
 
     //================TIME================
-    [SerializeField] Slider slider;
-
+    public Slider slider;
     [SerializeField] float duration = 120.0f; //  minutes in seconds
     private float targetValue;
     private float startValue;
@@ -96,6 +95,5 @@ public class InGameUIHandler : MonoBehaviour
         {
             machinegun.SetActive(false);
         }
-
     }
 }
