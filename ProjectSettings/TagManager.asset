@@ -3,28 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Egg
-  - Bullet
-  - Enemy
-  - Seed
-  - MeleeAttack
-  - Holder
-  - Doors
-<<<<<<< Updated upstream
-=======
-  - Protection
-  - Bomb
->>>>>>> Stashed changes
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Eggs
+  - 
   - Water
   - UI
-  - Player
-  - MeleeAttack
+  - 
+  - 
   - 
   - 
   - 
