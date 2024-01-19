@@ -11,6 +11,11 @@ TagManager:
   - MeleeAttack
   - Holder
   - Doors
+<<<<<<< Updated upstream
+=======
+  - Protection
+  - Bomb
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
