@@ -42,11 +42,8 @@ public class PlayerHealthSystem : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider collision) {
-        Debug.Log(Physics.GetIgnoreLayerCollision(6, 8));
-
-        if (!Physics.GetIgnoreLayerCollision(6, 8) && collision.gameObject.tag == "MeleeAttack") {
+        if (collision.gameObject.tag == "MeleeAttack") {
             TakeDamage();
-           
         }
     }  
 
