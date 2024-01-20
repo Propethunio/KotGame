@@ -4,6 +4,11 @@ using UnityEngine;
 using TMPro;
 
 public class PlayerHealthSystem : MonoBehaviour {
+
+    [SerializeField] GameObject starsCointener;
+    [SerializeField] GameObject endScreen;
+    [SerializeField] TMP_Text textEnd;
+
     int eggNumber;
     bool canTakeDamage = true; 
     [SerializeField] GameObject showScore;
@@ -99,7 +104,10 @@ public class PlayerHealthSystem : MonoBehaviour {
 
     void Death() {
         if(damageToTake == 0) {
-            Debug.Log("Dead!");
+            endScreen.SetActive(true);
+            textEnd.text = "You lost - died";
+            Time.timeScale = 0f;
+            starsCointener.SetActive(false);
         }
     }
 

@@ -8,6 +8,10 @@ using UnityEngine.UI;
 
 public class InGameUIHandler : MonoBehaviour
 {
+    [SerializeField] GameObject endScreen;
+    [SerializeField] GameObject starsCointener;
+    [SerializeField] TMP_Text textEnd;
+
     //================SEED================
     [SerializeField] TextMeshProUGUI seedText;
     [SerializeField] PlayerLootSystem playerLootSystem;
@@ -72,7 +76,16 @@ public class InGameUIHandler : MonoBehaviour
             yield return null;
         }   
             slider.value = targetValue;
-    } 
+        GameEnd();
+    }
+
+    private void GameEnd()
+    {
+        endScreen.SetActive(true);
+        textEnd.text = "You lost - time end";
+        starsCointener.SetActive(false);
+        Time.timeScale = 0f;
+    }
 
     void DisplayGuns() {
 
