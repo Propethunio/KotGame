@@ -11,6 +11,8 @@ TagManager:
   - MeleeAttack
   - Holder
   - Doors
+  - Protection
+  - Rotation
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - UI
   - Player
   - MeleeAttack
-  - 
+  - Enemy
   - 
   - 
   - 
