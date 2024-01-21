@@ -59,6 +59,11 @@ public class InGameUIHandler : MonoBehaviour
         isPauseMenuOn = false;
     }
 
+    public void SaveScore() {
+        PlayerPrefs.SetString("Score", playerLootSystem.seedNumber.ToString());
+        PlayerPrefs.SetString("Time", slider.value.ToString());
+    }
+
     public void LoadLevel() {
         SceneManager.LoadScene("Levels");
     }
@@ -67,7 +72,7 @@ public class InGameUIHandler : MonoBehaviour
         seedText.SetText($"{playerLootSystem.seedNumber.ToString()}");
     }
 
-    private System.Collections.IEnumerator DecreaseSliderValue() {
+    private IEnumerator DecreaseSliderValue() {
         while (elapsedTime < duration) {
             float newValue = Mathf.Lerp(startValue, targetValue, elapsedTime / duration);
             slider.value = newValue;

@@ -7,9 +7,17 @@ public class SetStartProperties : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject doors;
     [SerializeField] InGameUIHandler inGameUIHandler;
+    [SerializeField] GameObject getBackToCoopScreen;
     Vector3 doorsPosition;
-    bool doorsOnTrigger;
-    
+
+    public delegate void GetBack();
+    public static event GetBack OnGetBack;
+
+    private void OnEnable()
+    {
+        OnGetBack += EndGame;
+    }
+
     void Awake()
     {
         doorsPosition = doors.transform.position;
@@ -19,10 +27,6 @@ public class SetStartProperties : MonoBehaviour
         SetPlayerPosition();
     }
 
-    void Update()
-    {
-        EndGame();
-    }
 
     void SetPlayerPosition() {
         doorsPosition.x = 1f;
@@ -30,25 +34,27 @@ public class SetStartProperties : MonoBehaviour
         player.transform.position = doorsPosition;
     }
 
-    void EndGame(){
-        if(inGameUIHandler.slider.value == 0 && doorsOnTrigger) {
-            Debug.Log("Game ended.");
-        }
+    void EndGame() {
+        getBackToCoopScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        getBackToCoopScreen.SetActive(false);
+        Time.timeScale = 1;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            doorsOnTrigger = true;
+            OnGetBack?.Invoke();
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnDisable()
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            doorsOnTrigger = false;
-        }
+        OnGetBack -= EndGame;
     }
 }

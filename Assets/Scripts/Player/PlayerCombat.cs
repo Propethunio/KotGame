@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SpecialGun;
 
 public class PlayerCombat : MonoBehaviour {
 
@@ -28,6 +29,11 @@ public class PlayerCombat : MonoBehaviour {
     // [1] shootgun
     // [2] machinegun
 
+    private void OnEnable()
+    {
+        OnPickedWeapon += ChangeIcon;
+    }
+
     void Start() {
         gunInUse[0] = true;
     }
@@ -45,6 +51,22 @@ public class PlayerCombat : MonoBehaviour {
             case Weapon.shootgun:
                 gunInUse[1] = true;
                 ShootShootgun();
+                break;
+        }
+    }
+
+    public void ChangeIcon()
+    {
+        switch (weapon)
+        {
+            case Weapon.none:
+                gunInUse[0] = true;
+                break;
+            case Weapon.machineGun:
+                gunInUse[2] = true;
+                break;
+            case Weapon.shootgun:
+                gunInUse[1] = true;
                 break;
         }
     }
@@ -94,5 +116,10 @@ public class PlayerCombat : MonoBehaviour {
                 gunInUse[2] = false;
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        OnPickedWeapon += ChangeIcon;
     }
 }

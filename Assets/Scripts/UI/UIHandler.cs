@@ -71,7 +71,7 @@ public class UIHandler : MonoBehaviour
 
     void DispleyLevelInfo(int number) {
         title.SetText(createdLevels[number].number);
-        time.SetText(createdLevels[number].time.ToString());
+        time.SetText(createdLevels[number].time.ToString("0.00"));
         seeds.SetText(createdLevels[number].seeds.ToString());
 
          switch(createdLevels[number].stars)

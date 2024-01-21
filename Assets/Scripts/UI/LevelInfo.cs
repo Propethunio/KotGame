@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.LowLevel;
 using UnityEngine.UI;
 
 public class LevelInfo : MonoBehaviour
@@ -49,8 +50,8 @@ public class LevelInfo : MonoBehaviour
     
     void CreateLevel() {
         uiHandler.createdLevels[childPosition].number = $"Level {(childPosition+1).ToString()}";
-        uiHandler.createdLevels[childPosition].time = time;
-        uiHandler.createdLevels[childPosition].seeds = seeds;
+        uiHandler.createdLevels[childPosition].time = float.Parse(PlayerPrefs.GetString("Time"));
+        uiHandler.createdLevels[childPosition].seeds = int.Parse(PlayerPrefs.GetString("Score"));
         uiHandler.createdLevels[childPosition].stars = stars;
         uiHandler.createdLevels[childPosition].passed = passed;
     }
