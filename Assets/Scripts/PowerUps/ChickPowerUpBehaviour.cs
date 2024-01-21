@@ -6,6 +6,7 @@ public class ChickPowerUpBehaviour : MonoBehaviour
 {
     [SerializeField] ChicksPowerUps chicksPowerUpsObject;
     [SerializeField] Renderer material;
+    GameObject[] meleeToTurnOff;
     GameObject rotationObj;
 
     public delegate void IsPicked();
@@ -20,6 +21,7 @@ public class ChickPowerUpBehaviour : MonoBehaviour
     {
         rotationObj = GameObject.FindGameObjectWithTag("Rotation");
         string tag = gameObject.tag;
+        meleeToTurnOff = GameObject.FindGameObjectsWithTag("MeleeAttack");
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -47,6 +49,11 @@ public class ChickPowerUpBehaviour : MonoBehaviour
         material.material.color = color;
 
         Physics.IgnoreLayerCollision(6, 8, true);
+        
+        for(int i = 0; i < meleeToTurnOff.Length;  i++)
+        {
+            meleeToTurnOff[i].GetComponent<BoxCollider>().enabled = false;
+        }
 
         yield return new WaitForSeconds(chicksPowerUpsObject.durationTime);
 
@@ -54,6 +61,11 @@ public class ChickPowerUpBehaviour : MonoBehaviour
         material.material.color = color;
 
         Physics.IgnoreLayerCollision(6, 8, false);
+        for (int i = 0; i < meleeToTurnOff.Length; i++)
+        {
+            meleeToTurnOff[i].GetComponent<BoxCollider>().enabled = true;
+        }
+
         Destroy(gameObject);
     }
 
