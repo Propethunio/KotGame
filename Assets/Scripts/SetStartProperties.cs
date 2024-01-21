@@ -6,6 +6,7 @@ public class SetStartProperties : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject doors;
+    [SerializeField] GameObject doors2;
     [SerializeField] InGameUIHandler inGameUIHandler;
     [SerializeField] GameObject getBackToCoopScreen;
     Vector3 doorsPosition;
@@ -25,6 +26,7 @@ public class SetStartProperties : MonoBehaviour
 
     void Start() {
         SetPlayerPosition();
+        StartCoroutine(WaitTillPlayerLeave());
     }
 
 
@@ -56,5 +58,11 @@ public class SetStartProperties : MonoBehaviour
     private void OnDisable()
     {
         OnGetBack -= EndGame;
+    }
+
+    private IEnumerator WaitTillPlayerLeave()
+    {
+        yield return new WaitForSeconds(3f);
+        doors2.GetComponent<BoxCollider>().enabled = true;
     }
 }

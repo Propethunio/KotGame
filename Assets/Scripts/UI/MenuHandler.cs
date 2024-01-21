@@ -5,7 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
-    public void LoadLevel() {
-        SceneManager.LoadScene("Levels");
+    [SerializeField] GameObject panelHow;
+    public void How() {
+        panelHow.SetActive(true);
+    }
+
+    public void Exit()
+    {
+        panelHow.SetActive(false);
     }
 }
